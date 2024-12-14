@@ -6,7 +6,11 @@ class RandomJokeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Random Joke")),
+      appBar: AppBar(
+        title: Text("Random Joke"),
+        backgroundColor: Colors.purple,
+      ),
+      backgroundColor: Colors.purple[50],
       body: FutureBuilder<Joke>(
         future: ApiService.fetchRandomJoke(),
         builder: (context, snapshot) {
@@ -20,12 +24,41 @@ class RandomJokeScreen extends StatelessWidget {
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Text(joke.setup, style: TextStyle(fontSize: 20)),
-                  SizedBox(height: 10),
-                  Text(joke.punchline,
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                  Card(
+                    color: Colors.purple[100],
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(20.0),
+                      child: Column(
+                        children: [
+                          Text(
+                            joke.setup,
+                            style: TextStyle(
+                              fontSize: 22,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.purple[800],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(height: 15),
+                          Text(
+                            joke.punchline,
+                            style: TextStyle(
+                              fontSize: 26,
+                              fontStyle: FontStyle.italic,
+                              color: Colors.purple[700],
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             );

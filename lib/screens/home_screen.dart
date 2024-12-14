@@ -7,16 +7,19 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Types of Jokes"),
+        title: Text("Choose a type of a joke"),
+        backgroundColor: Colors.purple,
         actions: [
           IconButton(
-            icon: Icon(Icons.lightbulb_outline),
+            icon: Icon(Icons.star),
+            color: Colors.white70,
             onPressed: () {
               Navigator.pushNamed(context, "/random");
             },
           ),
         ],
       ),
+      backgroundColor: Colors.purple[50],
       body: FutureBuilder<List<String>>(
         future: ApiService.fetchJokeTypes(),
         builder: (context, snapshot) {
@@ -29,16 +32,27 @@ class HomeScreen extends StatelessWidget {
             return ListView.builder(
               itemCount: types.length,
               itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(types[index]),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => JokesScreen(type: types[index]),
-                      ),
-                    );
-                  },
+                return Card(
+                  color: Colors.purple[100],
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    title: Text(types[index],
+                        style: TextStyle(
+                          color: Colors.purple[800],
+                          fontWeight: FontWeight.bold,
+                        )),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => JokesScreen(type: types[index]),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             );

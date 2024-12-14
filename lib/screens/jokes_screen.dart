@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mis_lab2/services/api_services.dart';
-import '../services/api_services.dart';
 import '../models/joke.dart';
 
 class JokesScreen extends StatelessWidget {
@@ -11,7 +10,11 @@ class JokesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("$type Jokes")),
+      appBar: AppBar(
+        title: Text("$type Jokes"),
+        backgroundColor: Colors.purple,
+      ),
+      backgroundColor: Colors.purple[50],
       body: FutureBuilder<List<Joke>>(
         future: ApiService.fetchJokesByType(type),
         builder: (context, snapshot) {
@@ -25,9 +28,30 @@ class JokesScreen extends StatelessWidget {
               itemCount: jokes.length,
               itemBuilder: (context, index) {
                 final joke = jokes[index];
-                return ListTile(
-                  title: Text(joke.setup),
-                  subtitle: Text(joke.punchline),
+                return Card(
+                  color: Colors.purple[100],
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: ListTile(
+                    title: Text(
+                      joke.setup,
+                      style: TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.purple[800],
+                      ),
+                    ),
+                    subtitle: Text(
+                      joke.punchline,
+                      style: TextStyle(
+                        fontSize: 24,
+                        fontStyle: FontStyle.italic,
+                        color: Colors.purple[700],
+                      ),
+                    ),
+                  ),
                 );
               },
             );
