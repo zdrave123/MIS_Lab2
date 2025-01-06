@@ -119,12 +119,13 @@
 // }
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:timezone/timezone.dart' as tz;
 import '../models/joke.dart';
 import '../services/api_services.dart';
 import 'jokes_screen.dart';
 import 'favorites_screen.dart';
+
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -220,62 +221,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _initializeNotifications(); // Initialize notifications
-    _scheduleDailyNotification(); // Schedule the daily notification
-  }
-
-
-  void _initializeNotifications() async {
-    const AndroidInitializationSettings initializationSettingsAndroid =
-    AndroidInitializationSettings('@mipmap/ic_launcher');
-
-    const InitializationSettings initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-    );
-
-    await flutterLocalNotificationsPlugin.initialize(initializationSettings);
-  }
-
-  void _scheduleDailyNotification() async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      'daily_jokes_channel',
-      'Daily Jokes',
-      channelDescription: 'Notification channel for daily jokes',
-      importance: Importance.high,
-      priority: Priority.high,
-    );
-
-    const NotificationDetails notificationDetails = NotificationDetails(
-      android: androidDetails,
-    );
-
-
-    tz.TZDateTime nextInstance = _nextInstanceOfTime(9, 0);
-
-
-    await flutterLocalNotificationsPlugin.zonedSchedule(
-      0,
-      'Joke of the Day!', // Title
-      'Click to see today’s joke.', // Body
-      nextInstance,
-      notificationDetails,
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      uiLocalNotificationDateInterpretation:
-      UILocalNotificationDateInterpretation.absoluteTime,
-      matchDateTimeComponents: DateTimeComponents.time,
-    );
-  }
-
-  tz.TZDateTime _nextInstanceOfTime(int hour, int minute) {
-    final tz.TZDateTime now = tz.TZDateTime.now(tz.local);
-    tz.TZDateTime scheduledTime =
-    tz.TZDateTime(tz.local, now.year, now.month, now.day, hour, minute);
-
-    if (scheduledTime.isBefore(now)) {
-      scheduledTime = scheduledTime.add(const Duration(days: 1));
-    }
-
-    return scheduledTime;
+    print("Init state called");
   }
 
   void saveJokesToFirestore(List<Joke> jokes) async {
@@ -299,3 +245,5 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 }
+
+
